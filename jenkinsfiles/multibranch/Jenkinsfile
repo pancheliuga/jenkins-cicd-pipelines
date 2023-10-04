@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub_id')
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -26,9 +29,8 @@ pipeline {
         }
         stage('Push Docker Image') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub_id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
-                    sh "docker push opancheliuga/nodeapp:${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                    sh 'docker push opancheliuga/nodeapp:${env.BRANCH_NAME}-${env.BUILD_NUMBER}'
                 }
             }
         }
