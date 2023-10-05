@@ -4,7 +4,7 @@ pipeline {
         DOCKER_IMAGE = "opancheliuga/nodedev:${env.GIT_COMMIT}"
     }
     stages {
-        stage('Deploy_to_main') {
+        stage('Deploy_to_dev') {
             steps {
                 script {
                     sh "docker pull ${DOCKER_IMAGE}"

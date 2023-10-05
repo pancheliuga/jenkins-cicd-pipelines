@@ -36,6 +36,14 @@ pipeline {
                 sh "docker build -t ${DOCKER_IMAGE} ."
             }
         }
+        stage('Scan Docker Image for Vulnerabilities') {
+            steps {
+                script {
+                    def vulnerabilities = sh(script: "trivy image --exit-code 0 --severity HIGH,MEDIUM,LOW --no-progress ${DOCKER_IMAGE}", returnStdout: true).trim()
+                    echo "Vulnerability Report:\n${vulnerabilities}"
+                }
+            }
+        }
         stage('Push Docker Image') {
             steps {
                     sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
