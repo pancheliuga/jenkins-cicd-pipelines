@@ -5,9 +5,6 @@ pipeline {
     }
     stages {
         stage('Deploy_to_main') {
-            when {
-                branch 'main'
-            }
             steps {
                 script {
                     sh "docker pull ${DOCKER_IMAGE}"
