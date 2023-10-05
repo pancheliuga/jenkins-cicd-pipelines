@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_IMAGE = "opancheliuga/nodeapp:${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+        DOCKER_IMAGE = "opancheliuga/nodemain:${env.GIT_COMMIT}"
     }
     stages {
         stage('Deploy_to_main') {
