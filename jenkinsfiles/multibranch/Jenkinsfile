@@ -20,6 +20,17 @@ pipeline {
                 sh './scripts/test.sh'
             }
         }
+        stage('Deploy') {
+            steps {
+                script {
+                    if (currentBuild.branches[0].name == 'main') {
+                        sh "cp logos/logo-main.svg scr/logo.svg"
+                    } else {
+                        sh "cp logos/logo-dev.svg src/logo.svg"
+                    }
+                }
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 sh "docker build -t ${DOCKER_IMAGE} ."

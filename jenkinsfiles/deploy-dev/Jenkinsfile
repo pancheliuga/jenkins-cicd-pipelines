@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+    environment {
+        DOCKER_IMAGE = "opancheliuga/nodedev:${env.GIT_COMMIT}"
+    }
+    stages {
+        stage('Deploy_to_main') {
+            steps {
+                script {
+                    sh "docker pull ${DOCKER_IMAGE}"
+                    sh "docker run -d -p 3001:3000 ${DOCKER_IMAGE}"
+                }
+            }
+        }
+    }
+}
