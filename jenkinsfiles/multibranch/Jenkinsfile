@@ -24,7 +24,7 @@ pipeline {
             steps {
                 script {
                     if (env.BRANCH_NAME == 'main') {
-                        sh "cp logos/logo-main.svg scr/logo.svg"
+                        sh "cp logos/logo-main.svg src/logo.svg"
                     } else {
                         sh "cp logos/logo-dev.svg src/logo.svg"
                     }
