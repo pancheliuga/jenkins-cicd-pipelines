@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+    environment {
+        DOCKER_IMAGE = "opancheliuga/nodeapp:${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+    }
+    stages {
+        stage('Deploy_to_main') {
+            when {
+                branch 'main'
+            }
+            steps {
+                script {
+                    sh "docker pull ${DOCKER_IMAGE}"
+                    sh "docker run -d -p 3000:3000 ${DOCKER_IMAGE}"
+                }
+            }
+        }
+    }
+}
